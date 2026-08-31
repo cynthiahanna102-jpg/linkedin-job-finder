@@ -54,7 +54,13 @@ export const experience = [
   },
 ] as const;
 
-export const projects = [
+export const projects: {
+  title: string;
+  subtitle: string;
+  description: string;
+  tags: string[];
+  href?: string;
+}[] = [
   {
     title: "Personal Portfolio with AI Recruiter Chatbot",
     subtitle: "This site",
@@ -64,10 +70,11 @@ export const projects = [
   },
   {
     title: "AI Career-Matching Platform",
-    subtitle: "Personal project",
+    subtitle: "Personal project · live demo",
     description:
-      "An AI-based system that analyzes applicant CVs to extract skills, experience, and preferences, then matches candidates to the best-fit roles based on desired position and expected salary. Uses prompt engineering and automation logic to turn unstructured resume data into structured job recommendations.",
-    tags: ["n8n", "Prompt Engineering", "Groq LLM", "Automation"],
+      "An AI system that reads an applicant's CV to extract skills, experience, and preferences, then searches live LinkedIn postings and ranks them by fit against the desired role and expected salary — with a salary reality-check. Built as a Next.js front end plus an n8n workflow that runs the LLM steps.",
+    tags: ["Next.js", "n8n", "LLM (local / OpenAI-compatible)", "Prompt Engineering"],
+    href: "/jobmatch",
   },
   {
     title: "Hospital Management Mobile Application",
@@ -76,7 +83,7 @@ export const projects = [
       "A mobile application to improve hospital management and patient care — doctors and patients can securely sign in, manage appointments, and access medical records and lab results. Includes room reservations, specialist selection, multi-method payments, emergency SOS, and staff dashboards.",
     tags: ["Android Studio", "Oracle DB", "REST API"],
   },
-] as const;
+];
 
 export const education: {
   degree: string;

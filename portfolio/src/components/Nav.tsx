@@ -1,14 +1,16 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 
 const LINKS = [
-  { href: "#about", label: "About" },
-  { href: "#skills", label: "Skills" },
-  { href: "#experience", label: "Experience" },
-  { href: "#projects", label: "Projects" },
-  { href: "#education", label: "Education" },
-  { href: "#contact", label: "Contact" },
+  { href: "/#about", label: "About" },
+  { href: "/#skills", label: "Skills" },
+  { href: "/#experience", label: "Experience" },
+  { href: "/#projects", label: "Projects" },
+  { href: "/#education", label: "Education" },
+  { href: "/#contact", label: "Contact" },
+  { href: "/jobmatch", label: "Job Match" },
 ];
 
 export default function Nav() {
@@ -17,16 +19,16 @@ export default function Nav() {
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/80 backdrop-blur">
       <nav className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
-        <a href="#top" className="font-semibold tracking-tight text-foreground">
+        <Link href="/#top" className="font-semibold tracking-tight text-foreground">
           Cynthia Hanna
-        </a>
+        </Link>
 
         <ul className="hidden gap-8 text-sm text-muted md:flex">
           {LINKS.map((link) => (
             <li key={link.href}>
-              <a href={link.href} className="transition-colors hover:text-accent">
+              <Link href={link.href} className="transition-colors hover:text-accent">
                 {link.label}
-              </a>
+              </Link>
             </li>
           ))}
         </ul>
@@ -56,9 +58,9 @@ export default function Nav() {
           <ul className="flex flex-col gap-4 text-sm text-muted">
             {LINKS.map((link) => (
               <li key={link.href}>
-                <a href={link.href} onClick={() => setOpen(false)} className="hover:text-accent">
+                <Link href={link.href} onClick={() => setOpen(false)} className="hover:text-accent">
                   {link.label}
-                </a>
+                </Link>
               </li>
             ))}
             <li>

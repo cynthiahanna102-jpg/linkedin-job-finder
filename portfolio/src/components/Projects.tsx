@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { projects } from "@/lib/profile";
 
 export default function Projects() {
@@ -27,6 +28,14 @@ export default function Projects() {
                 </li>
               ))}
             </ul>
+            {project.href && (
+              <Link
+                href={project.href}
+                className="mt-4 inline-block text-sm font-medium text-accent transition-colors hover:text-accent-light"
+              >
+                Try it live →
+              </Link>
+            )}
           </div>
         ))}
       </div>

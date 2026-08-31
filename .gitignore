@@ -1,0 +1,17 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+
+# Claude Code local runtime files (keep launch.json, ignore transient state)
+.claude/scheduled_tasks.lock
+.claude/*.lock
+.claude/logs/
+.claude/scratchpad/
+
+# local-only helper dir
+n8n-local/
+
+# env files (real values live only in portfolio/.env.local)
+.env
+.env.local
+.env.*.local
