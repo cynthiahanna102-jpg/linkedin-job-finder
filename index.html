@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>JobMatch AI — Find your next role on LinkedIn</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div class="bg-orbs" aria-hidden="true"><span></span><span></span><span></span></div>
+
+<header class="site-header">
+  <div class="brand">
+    <div class="brand-mark">JM</div>
+    <span>JobMatch<strong>AI</strong></span>
+  </div>
+  <a class="ghost-link" href="https://console.groq.com" target="_blank" rel="noopener">Powered by Groq + n8n</a>
+</header>
+
+<main>
+  <!-- ============ HERO / FORM ============ -->
+  <section class="hero" id="form-view">
+    <div class="hero-copy">
+      <h1>Upload your CV.<br />Get the LinkedIn jobs<br /><span class="grad">that actually fit.</span></h1>
+      <p class="lede">
+        Our AI reads your CV, weighs it against the role and salary you want,
+        then searches live LinkedIn postings and ranks them by how well they match.
+      </p>
+      <ul class="bullets">
+        <li>Tailored search query built from your experience</li>
+        <li>Every match scored 0–100 with a reason</li>
+        <li>Salary-expectation reality check included</li>
+      </ul>
+    </div>
+
+    <form id="job-form" class="card">
+      <h2>Tell us what you're looking for</h2>
+
+      <div class="field">
+        <label for="fullName">Full name</label>
+        <input type="text" id="fullName" name="fullName" placeholder="Jane Doe" required />
+      </div>
+
+      <div class="field">
+        <label for="cv">Your CV <span class="hint">(PDF, max 5 MB)</span></label>
+        <div class="file-drop" id="fileDrop">
+          <input type="file" id="cv" name="cv" accept="application/pdf,.pdf" required />
+          <span class="file-drop-label" id="fileLabel">Drag &amp; drop or <u>browse</u></span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="jobTitle">Target job title / role</label>
+        <input type="text" id="jobTitle" name="jobTitle" placeholder="Senior Data Analyst" required />
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="salaryExpectation">Expected salary</label>
+          <input type="number" id="salaryExpectation" name="salaryExpectation" placeholder="75000" min="0" required />
+        </div>
+        <div class="field narrow">
+          <label for="salaryCurrency">Currency</label>
+          <select id="salaryCurrency" name="salaryCurrency">
+            <option>USD</option><option>EUR</option><option>GBP</option>
+            <option>CAD</option><option>AUD</option><option>AED</option><option>INR</option>
+          </select>
+        </div>
+        <div class="field narrow">
+          <label for="salaryPeriod">Per</label>
+          <select id="salaryPeriod" name="salaryPeriod">
+            <option value="year">year</option>
+            <option value="month">month</option>
+            <option value="hour">hour</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="location">Preferred location</label>
+          <input type="text" id="location" name="location" placeholder="Berlin, Germany" required />
+        </div>
+        <div class="field">
+          <label for="workArrangement">Work arrangement</label>
+          <select id="workArrangement" name="workArrangement">
+            <option value="any">No preference</option>
+            <option value="remote">Remote</option>
+            <option value="hybrid">Hybrid</option>
+            <option value="onsite">On-site</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="experienceLevel">Experience level</label>
+          <select id="experienceLevel" name="experienceLevel">
+            <option value="internship">Internship</option>
+            <option value="entry">Entry level</option>
+            <option value="associate">Associate</option>
+            <option value="mid-senior" selected>Mid–Senior</option>
+            <option value="director">Director</option>
+            <option value="executive">Executive</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="jobType">Job type</label>
+          <select id="jobType" name="jobType">
+            <option value="any">Any</option>
+            <option value="full-time" selected>Full-time</option>
+            <option value="part-time">Part-time</option>
+            <option value="contract">Contract</option>
+            <option value="temporary">Temporary</option>
+            <option value="internship">Internship</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="datePosted">Posted within</label>
+          <select id="datePosted" name="datePosted">
+            <option value="any">Any time</option>
+            <option value="24h">Past 24 hours</option>
+            <option value="week" selected>Past week</option>
+            <option value="month">Past month</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="skills">Key skills to emphasize <span class="hint">(optional)</span></label>
+          <input type="text" id="skills" name="skills" placeholder="SQL, Python, dashboards" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="notes">Anything else you want in a role? <span class="hint">(optional)</span></label>
+        <textarea id="notes" name="notes" rows="2" placeholder="Prefer climate / health-tech, strong mentorship, no on-call."></textarea>
+      </div>
+
+      <button type="submit" id="submitBtn">Find my matches</button>
+      <p class="form-error" id="formError" hidden></p>
+      <p class="fineprint">Your CV is sent once to your own automation backend and is not stored by this page.</p>
+    </form>
+  </section>
+
+  <!-- ============ LOADING ============ -->
+  <section class="state-view" id="loading-view" hidden>
+    <div class="spinner"></div>
+    <h2>Reading your CV and searching LinkedIn…</h2>
+    <p id="loadingStep">Extracting experience from your CV</p>
+  </section>
+
+  <!-- ============ RESULTS ============ -->
+  <section class="results" id="results-view" hidden>
+    <div class="results-head">
+      <div>
+        <h2>Your job matches</h2>
+        <p id="resultsSummary" class="results-summary"></p>
+      </div>
+      <button class="secondary" id="restartBtn">New search</button>
+    </div>
+
+    <div class="analysis-card" id="analysisCard" hidden>
+      <h3>AI assessment</h3>
+      <p id="candidateSummary"></p>
+      <p id="salaryAssessment" class="salary-line"></p>
+    </div>
+
+    <div id="jobList" class="job-list"></div>
+    <p id="noJobs" class="no-jobs" hidden>
+      No postings came back for this search. Try widening the location, raising the "posted within"
+      window, or loosening the experience level.
+    </p>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <span>JobMatch AI — demo project</span>
+  <span>CV → AI targeting → live LinkedIn search → ranked matches</span>
+</footer>
+
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
