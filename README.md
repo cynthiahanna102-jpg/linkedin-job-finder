@@ -1,19 +1,19 @@
-# Cynthia Hanna — Portfolio (repo)
+# LinkedIn Job Finder
 
-The deployable app lives in [`portfolio/`](portfolio/) — a Next.js 16 site with two
-AI features (recruiter chatbot + AI Job Match), each backed by an n8n workflow.
+The deployable app lives in [`portfolio/`](portfolio/) — a Next.js 16 site that reads your
+CV and finds matching LinkedIn jobs, ranked by fit, each linking straight to the posting.
+Backed by an n8n workflow that runs the CV extraction + LLM ranking.
 
 ## Deploy on Vercel
 
-Import this repo and set **Root Directory → `portfolio`**, then add the env vars from
+Import this repo and set **Root Directory → `portfolio`**, then add the env var from
 [`portfolio/.env.example`](portfolio/.env.example):
 
 | Var | Value |
 |-----|-------|
-| `N8N_CHAT_WEBHOOK_URL` | `https://cynthia1.app.n8n.cloud/webhook/cynthia-chat` |
 | `N8N_JOBMATCH_WEBHOOK_URL` | `https://cynthia1.app.n8n.cloud/webhook/find-jobs` |
 
-Full details, including the local-LLM (Ollama) setup for the Job Match workflow, are in
+Full details, including the local-LLM (Ollama) setup for the workflow, are in
 [`portfolio/README.md`](portfolio/README.md).
 
 ## Local dev
@@ -21,6 +21,6 @@ Full details, including the local-LLM (Ollama) setup for the Job Match workflow,
 ```bash
 cd portfolio
 npm install
-cp .env.example .env.local   # fill in the two URLs
+cp .env.example .env.local   # fill in the webhook URL
 npm run dev
 ```

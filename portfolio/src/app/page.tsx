@@ -1,35 +1,23 @@
-"use client";
-
-import { useRef } from "react";
+import type { Metadata } from "next";
 import Nav from "@/components/Nav";
-import Hero from "@/components/Hero";
-import About from "@/components/About";
-import Skills from "@/components/Skills";
-import Experience from "@/components/Experience";
-import Projects from "@/components/Projects";
-import Education from "@/components/Education";
-import Contact from "@/components/Contact";
-import ChatWidget, { type ChatWidgetHandle } from "@/components/ChatWidget";
+import JobMatchApp from "@/components/JobMatchApp";
+
+export const metadata: Metadata = {
+  title: "LinkedIn Job Finder — AI CV Matching",
+  description:
+    "Upload your CV and targeting preferences; an AI backend builds a tailored LinkedIn search, pulls live postings, and ranks them by fit. Every result links straight to the job on LinkedIn.",
+};
 
 export default function Home() {
-  const chatRef = useRef<ChatWidgetHandle>(null);
-
   return (
     <>
       <Nav />
       <main className="flex-1">
-        <Hero onOpenChat={() => chatRef.current?.open()} />
-        <About />
-        <Skills />
-        <Experience />
-        <Projects />
-        <Education />
-        <Contact />
+        <JobMatchApp />
       </main>
       <footer className="border-t border-border px-6 py-8 text-center text-sm text-muted">
-        © {new Date().getFullYear()} Cynthia Hanna. Built with Next.js, deployed on Vercel.
+        © {new Date().getFullYear()} LinkedIn Job Finder · results come from LinkedIn&apos;s public job feed.
       </footer>
-      <ChatWidget ref={chatRef} />
     </>
   );
 }

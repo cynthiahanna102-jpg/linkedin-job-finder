@@ -194,71 +194,82 @@ export default function JobMatchApp() {
             “posted within” window, or loosening the experience level.
           </p>
         ) : (
-          <div className="mt-8 grid gap-4">
-            {jobs.map((job, i) => {
-              const score = Math.max(0, Math.min(100, Math.round(job.matchScore ?? 0)));
-              const tone =
-                score >= 75
-                  ? "text-emerald-600"
-                  : score >= 50
-                    ? "text-amber-600"
-                    : "text-rose-600";
-              return (
-                <article
-                  key={`${job.url ?? job.title}-${i}`}
-                  className="rounded-2xl border border-border bg-surface p-5 md:p-6"
-                >
-                  <div className="flex items-start justify-between gap-4">
-                    <div>
-                      <h3 className="text-base font-semibold text-foreground md:text-lg">
-                        {job.url ? (
-                          <a
-                            href={job.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="hover:text-accent"
-                          >
-                            {job.title || "Untitled role"}
-                          </a>
-                        ) : (
-                          job.title || "Untitled role"
+          <>
+            <div className="mt-8 grid gap-4">
+              {jobs.map((job, i) => {
+                const score = Math.max(0, Math.min(100, Math.round(job.matchScore ?? 0)));
+                const tone =
+                  score >= 75
+                    ? "text-emerald-600"
+                    : score >= 50
+                      ? "text-amber-600"
+                      : "text-rose-600";
+
+                const body = (
+                  <>
+                    <div className="flex items-start justify-between gap-4">
+                      <div>
+                        <h3 className="text-base font-semibold text-foreground md:text-lg">
+                          {job.title || "Untitled role"}
+                        </h3>
+                        <p className="mt-1 text-sm text-muted">
+                          {[job.company, job.location, job.postedDate].filter(Boolean).join(" · ")}
+                        </p>
+                      </div>
+                      <div className="shrink-0 text-center">
+                        <div className={`text-xl font-bold leading-none ${tone}`}>{score}</div>
+                        <div className="text-[10px] uppercase tracking-widest text-muted">match</div>
+                      </div>
+                    </div>
+
+                    {job.reasoning && (
+                      <p className="mt-3 border-t border-border pt-3 text-sm leading-relaxed text-foreground">
+                        {job.reasoning}
+                        {job.salaryFit && (
+                          <span className="mt-1 block text-xs text-muted">
+                            Salary: {job.salaryFit}
+                          </span>
                         )}
-                      </h3>
-                      <p className="mt-1 text-sm text-muted">
-                        {[job.company, job.location, job.postedDate].filter(Boolean).join(" · ")}
                       </p>
-                    </div>
-                    <div className="shrink-0 text-center">
-                      <div className={`text-xl font-bold leading-none ${tone}`}>{score}</div>
-                      <div className="text-[10px] uppercase tracking-widest text-muted">match</div>
-                    </div>
-                  </div>
+                    )}
 
-                  {job.reasoning && (
-                    <p className="mt-3 border-t border-border pt-3 text-sm leading-relaxed text-foreground">
-                      {job.reasoning}
-                      {job.salaryFit && (
-                        <span className="mt-1 block text-xs text-muted">
-                          Salary: {job.salaryFit}
-                        </span>
-                      )}
-                    </p>
-                  )}
+                    {job.url && (
+                      <span className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-accent">
+                        View on LinkedIn
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                          <path d="M7 17 17 7M9 7h8v8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      </span>
+                    )}
+                  </>
+                );
 
-                  {job.url && (
-                    <a
-                      href={job.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="mt-3 inline-block text-sm font-medium text-accent hover:text-accent-light"
-                    >
-                      View on LinkedIn →
-                    </a>
-                  )}
-                </article>
-              );
-            })}
-          </div>
+                const key = `${job.url ?? job.title}-${i}`;
+                const base = "block rounded-2xl border border-border bg-surface p-5 md:p-6";
+
+                return job.url ? (
+                  <a
+                    key={key}
+                    href={job.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="Open this job on LinkedIn"
+                    className={`${base} cursor-pointer transition-colors hover:border-accent hover:bg-accent-soft`}
+                  >
+                    {body}
+                  </a>
+                ) : (
+                  <article key={key} className={base}>
+                    {body}
+                  </article>
+                );
+              })}
+            </div>
+
+            <p className="mt-6 text-xs text-muted">
+              Tip: click any card to open that job on LinkedIn in a new tab.
+            </p>
+          </>
         )}
       </section>
     );
@@ -269,22 +280,24 @@ export default function JobMatchApp() {
     <section className="mx-auto max-w-5xl px-6 pt-16 pb-16 md:pt-20">
       <div className="grid gap-12 md:grid-cols-2 md:gap-16">
         <div>
-          <p className="text-sm font-medium uppercase tracking-widest text-accent">AI Job Match</p>
+          <p className="text-sm font-medium uppercase tracking-widest text-accent">LinkedIn Job Finder</p>
           <h1 className="mt-4 text-3xl font-bold tracking-tight text-foreground md:text-5xl">
             Upload your CV. Get the LinkedIn jobs that actually fit.
           </h1>
           <p className="mt-6 max-w-md text-base leading-relaxed text-muted">
             An AI backend reads your CV, weighs it against the role and salary you want, then
-            searches live LinkedIn postings and ranks them by how well they match.
+            searches live LinkedIn postings and ranks them by how well they match. Click any
+            result to open the job on LinkedIn.
           </p>
           <ul className="mt-6 space-y-2 text-sm text-foreground">
             <li>• Search query tailored from your experience</li>
             <li>• Every match scored 0–100 with a reason</li>
             <li>• Salary-expectation reality check included</li>
+            <li>• Each match links straight to the LinkedIn posting</li>
           </ul>
           <p className="mt-6 text-xs text-muted">
-            This is a demo of Cynthia&apos;s AI Career-Matching project. Your CV is forwarded
-            once to the automation backend and is not stored by this page.
+            Your CV is forwarded once to the matching backend to run the search and is not
+            stored by this page.
           </p>
         </div>
 

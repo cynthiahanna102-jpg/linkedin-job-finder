@@ -8,9 +8,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Cynthia Hanna — Computer Science Student & AI Automation Builder",
+  title: "LinkedIn Job Finder — AI CV Matching",
   description:
-    "Portfolio of Cynthia Hanna, a Computer Science student specializing in AI automation, chatbots, and workflow systems. Chat with the AI assistant to learn more.",
+    "Upload your CV, set your targeting preferences, and get live LinkedIn job postings ranked by how well they fit — each linking straight to the posting on LinkedIn.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

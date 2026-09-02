@@ -1,30 +1,28 @@
-# Cynthia Hanna — Portfolio
+# LinkedIn Job Finder
 
-Next.js 16 + React 19 + Tailwind v4 portfolio with two AI features, each backed by an
-n8n workflow:
+Next.js 16 + React 19 + Tailwind v4 web app that finds LinkedIn jobs for your CV.
 
-| Feature | Route | Front end | API route | n8n webhook env var |
-|---|---|---|---|---|
-| Recruiter chatbot (corner widget) | `/` | `components/ChatWidget.tsx` | `app/api/chat/route.ts` | `N8N_CHAT_WEBHOOK_URL` |
-| **AI Job Match** | `/jobmatch` | `components/JobMatchApp.tsx` | `app/api/jobmatch/route.ts` | `N8N_JOBMATCH_WEBHOOK_URL` |
+Upload a CV (PDF) + targeting answers → an n8n workflow extracts the CV text, an LLM
+builds a tailored LinkedIn search, the public LinkedIn guest feed is fetched and parsed,
+a second LLM scores each posting against the CV + salary, and ranked results come back
+as JSON. Each result on screen links straight to the job on LinkedIn.
 
-The browser only ever talks to same-origin `/api/*` routes; those forward to n8n
+| Route | Front end | API route | n8n webhook env var |
+|---|---|---|---|
+| `/` | `components/JobMatchApp.tsx` | `app/api/jobmatch/route.ts` | `N8N_JOBMATCH_WEBHOOK_URL` |
+
+The browser only ever talks to the same-origin `/api/jobmatch` route; it forwards to n8n
 server-side, so there's no CORS setup and no webhook URL in client code.
 
 ## Run locally
 
 ```bash
 npm install
-cp .env.example .env.local   # then fill in the two webhook URLs
+cp .env.example .env.local   # then fill in N8N_JOBMATCH_WEBHOOK_URL
 npm run dev
 ```
 
-## AI Job Match
-
-Upload a CV (PDF) + targeting answers → the n8n workflow extracts the CV text, an LLM
-builds a tailored LinkedIn search, the public LinkedIn guest feed is fetched and parsed,
-a second LLM scores each posting against the CV + salary, and ranked results come back
-as JSON. `app/api/jobmatch/route.ts` streams the multipart upload through to n8n.
+## The n8n workflow
 
 **Workflow:** "JobMatch AI - CV to LinkedIn Jobs" —
 https://cynthia1.app.n8n.cloud/workflow/wuhgoRhGMhr2yXM9
